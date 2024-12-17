@@ -3,7 +3,6 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # 无色
-
 # 检查并设置 Git 用户信息
 if ! git config --global user.email > /dev/null; then
     git config --global user.email "jonny6015@icloud.com"
@@ -17,9 +16,18 @@ if ! git config --global user.name > /dev/null; then
 else
     echo -e "${GREEN}Git 用户名已设置${NC}"
 fi
-# 添加所有更改并提交
-git add .
 
+# 检查未提交的更改
+if ! git diff --quiet || ! git diff --cached --quiet; then
+    echo -e "${NC}存在未提交的更改，需要提交或清理这些更改。${NC}"
+    git add .
+    # 提交更改
+    if git commit -m "在 $(date) 自动提交"; then
+        echo -e "${GREEN}提交成功！${NC}"
+    else
+        echo -e "${RED}没有更改需要提交${NC}"
+    fi
+fi
 # 拉取远程更新
 if ! git pull origin main; then
     echo -e "${RED}拉取远程更新失败，正在处理冲突...${NC}"
@@ -35,7 +43,8 @@ if ! git pull origin main; then
         git commit -m "已解决合并冲突，保留本地更改"
     fi
 fi
-
+# 添加所有更改并提交
+git add .
 # 提交更改
 if git commit -m "在 $(date) 自动提交"; then
     echo -e "${GREEN}提交成功！${NC}"
