@@ -9,13 +9,13 @@ inject:
     - <link rel="icon" type="image/png" sizes="32x32" href="/assets/xaoxuu/favicon/favicon-32x32.png">
     - <link rel="icon" type="image/png" sizes="16x16" href="/assets/xaoxuu/favicon/favicon-16x16.png">
     - <link rel="manifest" href="/assets/xaoxuu/favicon/site.webmanifest">
-    - <link rel="shortcut icon" href="/assets/xaoxuu/favicon/favicon.ico">
+    - <link rel="shortcut icon" href="/assets/favicon.ico">
     - <meta name="theme-color" content="#f8f8f8">
     - <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css" media="all" />
 
 logo:
   icon: /assets/icon.svg
-  title: Stellar
+  title: 星辰跳动
   subtitle: '技术与创新探索 | Tech & Innovation'
 
 open_graph:

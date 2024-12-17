@@ -3,6 +3,7 @@
 # Site
 title: '星辰跳动'
 avatar: 'assets/icon.svg'
+favicon: 'assets/favicon.ico'
 subtitle: '技术与创新探索 | Tech & Innovation'
 description: '个人博客，分享软件架构、编程语言和数字体验的见解。'
 keywords:
