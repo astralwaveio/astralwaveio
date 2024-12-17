@@ -51,11 +51,15 @@ set_git_user
 # 提交未提交的更改
 commit_changes
 
+echo -e "${NC}正在检查冲突...${NC}"
+
 # 拉取远程更新
 if ! git pull origin main; then
     handle_merge_conflicts
+    echo -e "${GREEN}已完成拉取远程更新${NC}"
 fi
 
+echo -e "${NC}正在准备推送到远程仓库...${NC}"
 # 推送到远程
 if git push origin main; then
     echo -e "${GREEN}推送成功！${NC}"
