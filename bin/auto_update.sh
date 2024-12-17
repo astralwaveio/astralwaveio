@@ -51,7 +51,7 @@ set_git_user
 # 提交未提交的更改
 commit_changes
 
-echo -e "${NC}正在检查冲突...${NC}"
+echo -e "${NC}正在拉取远程更新并检查冲突...${NC}"
 
 # 拉取远程更新
 if ! git pull origin main; then
