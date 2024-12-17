@@ -3,9 +3,20 @@
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # 无色
-# 设置 Git 用户信息（如果未设置的话）
-git config --global user.email "jonny6015@icloud.com"
-git config --global user.name "Astral Wave"
+
+# 检查并设置 Git 用户信息
+if ! git config --global user.email > /dev/null; then
+    git config --global user.email "jonny6015@icloud.com"
+    echo -e "${GREEN}已设置 Git 用户邮箱为 jonny6015@icloud.com${NC}"
+else
+    echo -e "${GREEN}Git 用户邮箱已设置${NC}"
+fi
+if ! git config --global user.name > /dev/null; then
+    git config --global user.name "Astral Wave"
+    echo -e "${GREEN}已设置 Git 用户名为 Astral Wave${NC}"
+else
+    echo -e "${GREEN}Git 用户名已设置${NC}"
+fi
 
 # 拉取远程更新
 if ! git pull origin main; then
