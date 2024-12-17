@@ -50,12 +50,12 @@ set_git_user
 
 # 提交未提交的更改
 commit_changes
+
 # 拉取远程更新
 if ! git pull origin main; then
     handle_merge_conflicts
 fi
-# 再次提交更改（如果有）
-commit_changes
+
 # 推送到远程
 if git push origin main; then
     echo -e "${GREEN}推送成功！${NC}"
