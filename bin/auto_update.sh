@@ -17,6 +17,8 @@ if ! git config --global user.name > /dev/null; then
 else
     echo -e "${GREEN}Git 用户名已设置${NC}"
 fi
+# 添加所有更改并提交
+git add .
 
 # 拉取远程更新
 if ! git pull origin main; then
@@ -33,8 +35,7 @@ if ! git pull origin main; then
         git commit -m "已解决合并冲突，保留本地更改"
     fi
 fi
-# 添加所有更改并提交
-git add .
+
 # 提交更改
 if git commit -m "在 $(date) 自动提交"; then
     echo -e "${GREEN}提交成功！${NC}"
