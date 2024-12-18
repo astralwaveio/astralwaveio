@@ -1,4 +1,4 @@
-name: auto deploy
+name: Auto Deploy
 
 on:
   workflow_dispatch:
