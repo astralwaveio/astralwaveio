@@ -1,0 +1,60 @@
+name: auto deploy
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: auto deploy
+    steps:
+    # 1. 获取源码
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true # 当有子模块时切换分支设置为 true
+    # 2. 配置环境
+    - name: Setup Node.js 22
+      uses: actions/setup-node@v4
+      with:
+        node-version: "lts/jod"
+    # 3. 生成静态文件
+    - name: Generate Public Files
+      run: |
+        npm i
+        npm install hexo-cli -g
+        hexo clean && hexo generate
+    # 4. 部署到服务器（可选）
+    - name: Deploy to Server
+      uses: easingthemes/ssh-deploy@main
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        ARGS: "-rltgoDzvO --delete"
+        EXCLUDE: ".well-known, .user.ini"
+        SOURCE: public/
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: ${{ secrets.DEPLOY_DIR }}
+    # # 4. 部署到 GitHub 仓库（可选）
+    # - name: Deploy to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     deploy_key: ${{ secrets.DEPLOY_KEY }}
+    #     external_repository: xaoxuu/xaoxuu.github.io
+    #     publish_branch: gh-pages
+    #     publish_dir: ./public
+    #     commit_message: ${{ github.event.head_commit.message }}
+    #     user_name: 'github-actions[bot]'
+    #     user_email: 'github-actions[bot]@users.noreply.github.com'
+    # # 4. 部署到阿里云OSS（可选）
+    # - name: Setup Aliyun OSS
+    #   uses: manyuanrong/setup-ossutil@master
+    #   with:
+    #     endpoint: oss-cn-hongkong.aliyuncs.com
+    #     access-key-id: ${{ secrets.OSS_ACCESSKEY_ID }}
+    #     access-key-secret: ${{ secrets.OSS_ACCESSKEY_SECRET }}
+    # - name: Deploy to  Aliyun OSS
+    #   run: ossutil cp -rf ./public oss://xaoxuu-com/
+
