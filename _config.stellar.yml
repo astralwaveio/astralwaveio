@@ -5,12 +5,13 @@ preconnect:
 
 inject:
     head:
-        - <link rel="apple-touch-icon" sizes="180x180" href="/assets/xaoxuu/favicon/apple-touch-icon.png">
-        - <link rel="icon" type="image/png" sizes="32x32" href="/assets/xaoxuu/favicon/favicon-32x32.png">
-        - <link rel="icon" type="image/png" sizes="16x16" href="/assets/xaoxuu/favicon/favicon-16x16.png">
-        - <link rel="manifest" href="/assets/xaoxuu/favicon/site.webmanifest">
+        - <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+        - <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+        - <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+        - <link rel="manifest" href="/assets/astral/site.webmanifest">
         - <link rel="shortcut icon" href="/assets/favicon.ico">
         - <meta name="theme-color" content="#f8f8f8">
+        - <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
         - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" media="all" />
 
 logo:
