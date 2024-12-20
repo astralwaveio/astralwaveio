@@ -11,7 +11,7 @@ inject:
         - <link rel="manifest" href="/assets/xaoxuu/favicon/site.webmanifest">
         - <link rel="shortcut icon" href="/assets/favicon.ico">
         - <meta name="theme-color" content="#f8f8f8">
-        - <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.min.css" media="all" />
+        - <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css" media="all" />
 
 logo:
     icon: /assets/icon.svg
