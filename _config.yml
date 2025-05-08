@@ -1,22 +1,22 @@
 ### Hexo Configuration
 
 # Site
-title: '星辰跳动'
-avatar: 'assets/icon.svg'
-favicon: 'assets/favicon.ico'
-subtitle: '技术与创新探索 | Tech & Innovation'
-description: '个人博客，分享软件架构、编程语言和数字体验的见解。'
+title: "星辰跳动"
+avatar: "assets/icon.svg"
+favicon: "assets/favicon.ico"
+subtitle: "技术与创新探索 | Tech & Innovation"
+description: "个人博客，分享软件架构、编程语言和数字体验的见解。"
 keywords:
     - 技术
     - 软件工程
     - 架构
     - 前端
     - 创新
-author: 'Astral'
+author: "Astral"
 language:
     - zh-CN
     - en
-timezone: 'Asia/Shanghai'
+timezone: "Asia/Shanghai"
 
 # URL
 url: https://astralwave.io
@@ -35,8 +35,8 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
-    - 'private/**/*'
-    - 'assets/*'
+    - "private/**/*"
+    - "assets/*"
 
 # Writing
 new_post_name: :title.md
@@ -45,7 +45,7 @@ titlecase: false
 external_link:
     enable: true
     field: site
-    exclude: ''
+    exclude: ""
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
@@ -55,20 +55,20 @@ syntax_highlighter: highlight.js
 highlight:
     line_number: true
     auto_detect: false
-    tab_replace: ''
+    tab_replace: ""
     wrap: true
     hljs: false
 prismjs:
     preprocess: true
     line_number: true
-    tab_replace: ''
+    tab_replace: ""
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-    path: ''
+    path: ""
     per_page: 20
     order_by: -date
 
@@ -84,7 +84,7 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
-updated_option: 'mtime'
+updated_option: "mtime"
 
 # Pagination
 per_page: 20
@@ -100,10 +100,14 @@ ignore:
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
+permalink_pinyin:
+    enable: true
+    separator: "-"
+
 ## Themes: https://hexo.io/themes/
 theme: stellar
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-    type: ''
+    type: ""
