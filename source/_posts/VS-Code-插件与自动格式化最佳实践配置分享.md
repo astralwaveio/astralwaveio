@@ -19,34 +19,35 @@ VS Code 是我日常开发的主力编辑器。无论是脚本、后端、前端
 
 我的插件覆盖了前后端、运维、数据和基础设施开发的多种场景，精选了每类的代表性扩展：
 
-```text
-aaron-bond.better-comments         # 注释增强
-ahmadalli.vscode-nginx-conf        # Nginx 配置
-christian-kohler.path-intellisense # 路径自动补全
-davidanson.vscode-markdownlint     # Markdown 规范
-eamodio.gitlens                    # Git 超强增强
-editorconfig.editorconfig          # 多人协作风格一致
-esbenp.prettier-vscode             # 代码格式化
-foxundermoon.shell-format          # Shell 脚本格式化
-golang.go                          # Go 语言支持
-hashicorp.terraform                # Terraform 支持
-johnnymorganz.stylua               # Lua 格式化
-lkrms.inifmt                       # ini/ignore 配置格式化
-mechatroner.rainbow-csv            # CSV 可视化
-ms-ceintl.vscode-language-pack-zh-hans # 简体中文语言包
-ms-python.black-formatter          # Python 格式化
-ms-python.debugpy                  # Python 调试
-ms-python.python                   # Python 支持
-ms-python.vscode-pylance           # Python 智能提示
-pkief.material-icon-theme          # 文件图标主题
-redhat.vscode-xml                  # XML 支持
-redhat.vscode-yaml                 # YAML 支持
-rust-lang.rust-analyzer            # Rust 智能提示
-voidei.vscode-vimrc                # vimrc 语法高亮
-vue.volar                          # Vue 3 支持
-yoieh.add-gitignore-vscode         # .gitignore 管理
-yzhang.markdown-all-in-one         # Markdown 增强
-````
+```sh
+code --install-extension aaron-bond.better-comments                # 注释增强
+code --install-extension ahmadalli.vscode-nginx-conf               # Nginx 配置
+code --install-extension christian-kohler.path-intellisense        # 路径自动补全
+code --install-extension davidanson.vscode-markdownlint            # Markdown 规范
+code --install-extension eamodio.gitlens                           # Git 超强增强
+code --install-extension editorconfig.editorconfig                 # 多人协作风格一致
+code --install-extension esbenp.prettier-vscode                    # 代码格式化
+code --install-extension foxundermoon.shell-format                 # Shell 脚本格式化
+code --install-extension golang.go                                 # Go 语言支持
+code --install-extension hashicorp.terraform                       # Terraform 支持
+code --install-extension johnnymorganz.stylua                      # Lua 格式化
+code --install-extension lkrms.inifmt                              # ini/ignore 配置格式化
+code --install-extension mechatroner.rainbow-csv                   # CSV 可视化
+code --install-extension ms-ceintl.vscode-language-pack-zh-hans    # 简体中文语言包
+code --install-extension ms-python.black-formatter                 # Python 格式化
+code --install-extension ms-python.debugpy                         # Python 调试
+code --install-extension ms-python.python                          # Python 支持
+code --install-extension ms-python.vscode-pylance                  # Python 智能提示
+code --install-extension pkief.material-icon-theme                 # 文件图标主题
+code --install-extension redhat.vscode-xml                         # XML 支持
+code --install-extension redhat.vscode-yaml                        # YAML 支持
+code --install-extension rust-lang.rust-analyzer                   # Rust 智能提示
+code --install-extension voidei.vscode-vimrc                       # vimrc 语法高亮
+code --install-extension vue.volar                                 # Vue 3 支持
+code --install-extension yoieh.add-gitignore-vscode                # .gitignore 管理
+code --install-extension yzhang.markdown-all-in-one                # Markdown 增强
+```
+
 
 ## 自动格式化与编辑体验配置
 
@@ -173,11 +174,20 @@ yzhang.markdown-all-in-one         # Markdown 增强
   "vue.complete.casing.tags": "autoKebab",
   "shellformat.path": "/opt/homebrew/bin/shfmt",
   "rainbow_csv.enable_auto_csv_lint": true,
-  "markdownlint.config": { "default": true, "MD013": false }
+  "markdownlint.config": { "default": false, "MD013": false }
 }
 ```
 
 > 如需配合团队协作，建议在项目根目录配合 `.editorconfig` 保证多端一致。
+## 依赖第三方应用安装（macOS）
+
+```sh
+brew install stylua
+brew install black
+brew install shfmt
+brew install terraform-ls
+```
+
 
 ## 经验总结与实践建议
 
