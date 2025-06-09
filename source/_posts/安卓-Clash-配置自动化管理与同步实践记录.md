@@ -1,196 +1,74 @@
 ---
-title: VS Code 插件与自动格式化最佳实践配置分享
-date: 2025-06-09 20:30:00
+title: 安卓 Clash 配置自动化管理与同步实践记录
+date: 2025-06-06 20:00:00
 categories:
-  - 编程环境
+  - Android
+  - 自动化
 tags:
-  - VSCode
-  - 插件推荐
-  - 自动格式化
-  - 开发效率
-description: 个人常用 VS Code 插件清单、自动格式化配置，以及跨语言开发的效率优化心得，适合各类后端、前端与云原生开发者参考。
+  - Clash
+  - Magisk
+  - Termux
+  - 配置管理
 ---
 
-# VS Code 插件与自动格式化最佳实践配置分享
+# 安卓 Clash 配置自动化管理与同步实践记录
 
-VS Code 是我日常开发的主力编辑器。无论是脚本、后端、前端还是基础设施即代码，我都力求做到**编辑器即开即用、保存即格式化、团队风格统一**。本文整理了我的 VS Code 插件清单、详细的格式化配置，以及一些实践经验，希望对大家有所帮助。
+最近在 OnePlus 设备上基于 [box_for_magisk](https://github.com/taamarin/box_for_magisk) 做 Clash 管理和魔改。为提升多设备与多场景同步的灵活性，决定通过 Git 仓库和软链接自动化配置同步，并结合 termux 实现定时自动化 pull&deploy。本文是完整的实现步骤记录。
 
-## 插件清单（`code --list-extensions`）
+## 目标
 
-我的插件覆盖了前后端、运维、数据和基础设施开发的多种场景，精选了每类的代表性扩展：
+- 所有 Clash、全局等自定义配置集中管理到 `surfing-config` 仓库。
+- 仓库内容实际存放在 `/storage/emulated/0/Android/surfing-config/`。
+- 通过软链接将配置映射到 `/data/adb/box/` 及子目录，实现无缝切换。
+- 利用 termux 和 cron 自动同步配置，彻底实现“只维护仓库文件”。
 
-```text
-aaron-bond.better-comments         # 注释增强
-ahmadalli.vscode-nginx-conf        # Nginx 配置
-christian-kohler.path-intellisense # 路径自动补全
-davidanson.vscode-markdownlint     # Markdown 规范
-eamodio.gitlens                    # Git 超强增强
-editorconfig.editorconfig          # 多人协作风格一致
-esbenp.prettier-vscode             # 代码格式化
-foxundermoon.shell-format          # Shell 脚本格式化
-golang.go                          # Go 语言支持
-hashicorp.terraform                # Terraform 支持
-johnnymorganz.stylua               # Lua 格式化
-lkrms.inifmt                       # ini/ignore 配置格式化
-mechatroner.rainbow-csv            # CSV 可视化
-ms-ceintl.vscode-language-pack-zh-hans # 简体中文语言包
-ms-python.black-formatter          # Python 格式化
-ms-python.debugpy                  # Python 调试
-ms-python.python                   # Python 支持
-ms-python.vscode-pylance           # Python 智能提示
-pkief.material-icon-theme          # 文件图标主题
-redhat.vscode-xml                  # XML 支持
-redhat.vscode-yaml                 # YAML 支持
-rust-lang.rust-analyzer            # Rust 智能提示
-voidei.vscode-vimrc                # vimrc 语法高亮
-vue.volar                          # Vue 3 支持
-yoieh.add-gitignore-vscode         # .gitignore 管理
-yzhang.markdown-all-in-one         # Markdown 增强
+## 步骤
+
+### 1. 配置迁移
+
+将 `/data/adb/box/clash/config.yaml`、`provide/`、`/data/adb/box/settings.ini`、`ap.list.cfg` 等复制到 surfing-config 目录下，冗余和运行时文件不做同步。
+
+### 2. 仓库结构与 .gitignore
+
+通过 `.gitignore` 只允许自定义配置纳入管理，其他全部忽略，防止杂项干扰。
+
+
+```gitignore
+*
+!.gitignore
+!README.md
+!bin/
+!bin/link-surfing-config.sh
+!clash/
+!clash/config.yaml
+!clash/provide/
+!clash/provide/**
+!settings.ini
+!ap.list.cfg
 ````
 
-## 自动格式化与编辑体验配置
+### 3. 自动化软链接脚本
 
-针对常用语言和格式，全部实现了保存自动格式化，团队协作下再也不用担心风格不统一。以下配置可直接放到 `.vscode/settings.json` 或全局 `settings.json`：
+所有操作通过 `bin/link-surfing-config.sh` 完成，包含自动 git pull、清理旧链接、重建新软链接。脚本支持多次运行，无需人工干预，适合定时任务。
 
-```json
-{
-  "[ignore]": { "editor.defaultFormatter": "lkrms.inifmt" },
-  "[ini]": { "editor.defaultFormatter": "lkrms.inifmt" },
-  "[lua]": { "editor.defaultFormatter": "JohnnyMorganz.stylua" },
-  "[luau]": { "editor.defaultFormatter": "JohnnyMorganz.stylua" },
-  "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
-    "editor.formatOnSave": true,
-    "editor.quickSuggestions": { "comments": "off", "other": "off", "strings": "off" },
-    "editor.wordWrap": "on"
-  },
-  "[nginx]": { "editor.defaultFormatter": "ahmadalli.vscode-nginx-conf" },
-  "[shellscript]": { "editor.defaultFormatter": "foxundermoon.shell-format" },
-  "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
-    "editor.detectIndentation": false,
-    "editor.formatOnSave": true,
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.tabSize": 2
-  },
-  "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true },
-  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true },
-  "[scss]": { "editor.defaultFormatter": "esbenp.prettier-vscode", "editor.formatOnSave": true },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true
-  },
-  "[go]": { "editor.defaultFormatter": "golang.go", "editor.formatOnSave": true },
-  "[rust]": { "editor.defaultFormatter": "rust-lang.rust-analyzer", "editor.formatOnSave": true },
-  "[terraform]": { "editor.defaultFormatter": "hashicorp.terraform" },
-  "[vimrc]": { "editor.defaultFormatter": null },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.fontFamily": "'MesloLGS NF', 'Symbols Nerd Font Mono', Menlo, Monaco, 'Courier New', monospace",
-  "editor.fontSize": 14,
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "editor.unicodeHighlight.allowedLocales": { "zh-hans": true },
-  "editor.unicodeHighlight.includeStrings": false,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": true,
-  "editor.cursorSmoothCaretAnimation": "on",
-  "editor.minimap.enabled": false,
-  "editor.rulers": [120],
-  "files.autoSave": "onFocusChange",
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "files.associations": {
-    "*.json": "json",
-    "*.log": "log",
-    "*.md": "markdown",
-    "*.toml": "toml",
-    "*.yaml": "yaml",
-    ".gitignore": "ignore",
-    "gitignore": "ignore",
-    "*.vimrc": "vimrc"
-  },
-  "git.autofetch": true,
-  "git.confirmSync": false,
-  "git.enableSmartCommit": true,
-  "gitlens.hovers.enabled": true,
-  "gitlens.codeLens.enabled": true,
-  "rainbow_csv.autodetect_separators": [",", "\t", ";", "|"],
-  "rainbow_csv.enable_context_menu_head": true,
-  "problems.autoReveal": false,
-  "debug.internalConsoleOptions": "neverOpen",
-  "security.workspace.trust.untrustedFiles": "open",
-  "typescript.tsserver.nodePath": "/opt/homebrew/opt/node@22/bin/node",
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "none",
-  "prettier.singleQuote": true,
-  "prettier.tabWidth": 2,
-  "prettier.useTabs": false,
-  "prettier.printWidth": 120,
-  "editorconfig.generateAuto": true,
-  "yaml.format.enable": true,
-  "yaml.hover": true,
-  "yaml.keyOrdering": false,
-  "yaml.maxItemsComputed": 3000,
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "/*.github/workflows/*"
-  },
-  "yaml.schemaStore.enable": true,
-  "yaml.style.flowMapping": "allow",
-  "yaml.style.flowSequence": "allow",
-  "yaml.validate": true,
-  "yaml.yamlVersion": "1.2",
-  "stylua.configPath": "/opt/homebrew/bin/stylua",
-  "python.analysis.importFormat": "relative",
-  "go.useLanguageServer": true,
-  "go.formatTool": "gofmt",
-  "rust-analyzer.cargo.buildScripts.enable": true,
-  "rust-analyzer.check.command": "clippy",
-  "terraform.languageServer.enable": true,
-  "terraform.languageServer.path": "/opt/homebrew/bin/terraform-ls",
-  "terraform.codelens.referenceCount": true,
-  "vue.codeActions.enabled": true,
-  "vue.complete.casing.tags": "autoKebab",
-  "shellformat.path": "/opt/homebrew/bin/shfmt",
-  "rainbow_csv.enable_auto_csv_lint": true,
-  "markdownlint.config": { "default": true, "MD013": false }
-}
+### 4. 安全目录设置
+
+由于安卓下常遇到 git “dubious ownership” 报错，需全局加入 safe.directory：
+
+```sh
+git config --system --add safe.directory /storage/emulated/0/Android/surfing-config
 ```
 
-> 如需配合团队协作，建议在项目根目录配合 `.editorconfig` 保证多端一致。
+### 5. 定时自动同步
 
-## 经验总结与实践建议
+借助 termux 的 cronie，配置定时任务实现每小时自动同步并软链：
 
-1. **插件不在多而在精**，每个类型只选最优解决方案。
-2. **保存自动格式化**是团队协作的底线，保证代码风格统一不内耗。
-3. **配置路径优先用 Homebrew 方式**，兼容性最佳，也方便自动升级。
-4. **多语言项目首选 VS Code**，无论是 Python、Go、Rust 还是 Terraform，官方插件都已非常完善。
-5. **.gitignore 管理插件**极大提升多语言项目的体验，强烈建议配合使用。
+```cron
+0 * * * * /system/bin/sh /storage/emulated/0/Android/surfing-config/bin/link-surfing-config.sh
+```
 
-## 结语
+## 总结
 
-开发工具不是越多越好，而是要“刚刚好”。插件和配置选得准，日常开发才能省心高效。希望这份经验对你有帮助，有更好的插件和配置也欢迎交流讨论！
+至此，所有 clash 及相关自定义配置均通过 git 仓库和软链自动化维护，极大提升了配置同步的可靠性和效率。只要更新仓库内容，手机侧无需手动干预即可自动应用到实际环境，极其适合需要跨设备/多环境的技术用户。
 
 ---
-
-如果你有其它 VS Code 配置和插件推荐，欢迎评论区留言一起讨论交流！
