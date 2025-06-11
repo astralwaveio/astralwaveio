@@ -38,14 +38,15 @@ tags:
 !.gitignore
 !README.md
 !bin/
-!bin/link-surfing-config.sh
+!bin/**
 !clash/
 !clash/config.yaml
 !clash/provide/
 !clash/provide/**
 !settings.ini
 !ap.list.cfg
-````
+
+```
 
 ### 3. 自动化软链接脚本
 
@@ -61,10 +62,10 @@ git config --system --add safe.directory /storage/emulated/0/Android/surfing-con
 
 ### 5. 定时自动同步
 
-借助 termux 的 cronie，配置定时任务实现每小时自动同步并软链：
+借助 termux 的 cronie，配置定时任务实现每小时自动同步并文件：
 
 ```cron
-0 * * * * /system/bin/sh /storage/emulated/0/Android/surfing-config/bin/link-surfing-config.sh
+0 * * * * /system/bin/sh /storage/emulated/0/Android/surfing-config/bin/update-config.sh
 ```
 
 ## 总结
