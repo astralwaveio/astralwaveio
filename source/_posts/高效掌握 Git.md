@@ -184,7 +184,7 @@ feat: 添加用户注册功能
 
 ## 分支管理流程图
 
-![Git 分支管理流程图](https://i-blog.csdnimg.cn/blog_migrate/90d7f897cffa6c1c39a7a2ae47e91a84.png)
+![Git 分支管理流程图](https://tsejx.github.io/devops-guidebook/static/git-flow.43a828b5.png)
 
 ---
 
