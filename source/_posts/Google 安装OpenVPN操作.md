@@ -1,4 +1,5 @@
-—
+---
+
 title: ”GCP 上手指南：一文搞定 OpenVPN 企业级部署“
 date: 2025-06-11 10:00:00
 tags:
@@ -12,11 +13,12 @@ categories:
 description: ”从零搭建一套运行在 GCP 上的 OpenVPN 企业级环境，全流程详解：网络设置、实例部署、安全配置、双因子认证、成本优化，全都有！“
 toc: true
 comments: true
-—
+
+---
 
 作为程序员，”远程访问“早已是日常生活的一部分——哪怕下班了，也可能突然被叫起来连 VPN 查日志。今天我就来分享如何在 GCP 上从零部署一套功能完备、安全可靠的 OpenVPN 环境。不绕弯子，干货满满，走你！
 
-—
+---
 
 ## 📌 一、前期准备工作
 
@@ -32,7 +34,7 @@ comments: true
 - **子网**：比如 `10.10.0.0/16`，你可以根据实际业务划分。
 - **私有 Google Access**：记得开启，后续如果你想让 VPN 用户访问 Cloud SQL，这就必须启用。
 
-—
+---
 
 ## 📌 二、Compute Engine 实例搭建
 
@@ -53,7 +55,7 @@ comments: true
 - 打开“VPC 网络” → “外部 IP”
 - 给你的实例绑定一个“静态 IP”，记住它，配置客户端时会用到。
 
-—
+---
 
 ## 📌 三、OpenVPN 服务安装和配置
 
@@ -112,7 +114,7 @@ openvpn —genkey —secret keys/ta.key
 sudo cp ca.crt server.crt server.key ta.key dh2048.pem /etc/openvpn
 ```
 
-—
+---
 
 ## 📌 四、OpenVPN 服务器配置
 
@@ -155,7 +157,7 @@ sudo systemctl enable openvpn@server
 sudo systemctl status openvpn@server
 ```
 
-—
+---
 
 ## 📌 五、防火墙规则设置
 
@@ -165,7 +167,7 @@ sudo systemctl status openvpn@server
 - **协议/端口**：UDP 1194
 - **来源 IP**：`0.0.0.0/0`（生产建议限制为可信网段）
 
-—
+---
 
 ## 📌 六、客户端证书与配置文件管理
 
@@ -213,7 +215,7 @@ key-direction 1
 </tls-auth>
 ```
 
-—
+---
 
 ## 📌 七、实现双因素认证（推荐 Google Authenticator）
 
@@ -252,7 +254,7 @@ auth required pam_google_authenticator.so nullok
 sudo systemctl restart openvpn@server
 ```
 
-—
+---
 
 ## 📌 八、运维与监控
 
@@ -263,14 +265,14 @@ sudo systemctl restart openvpn@server
 
 [此处建议插入 GCP 监控面板截图]
 
-—
+---
 
 ## 📌 九、成本控制建议
 
 - **资源监控**：GCP 控制台内置图表 + 自定义报警
 - **长期开销优化**：考虑使用 **预留实例（CUD）**，节省约 30% 成本
 
-—
+---
 
 ## 🏁 总结
 
