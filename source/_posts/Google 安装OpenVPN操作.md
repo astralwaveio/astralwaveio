@@ -1,6 +1,6 @@
 ---
 
-title: ”GCP 上手指南：一文搞定 OpenVPN 企业级部署“
+title: 一文搞定 GCP OpenVPN 企业级部署
 date: 2025-06-11 10:00:00
 tags:
   - GCP
