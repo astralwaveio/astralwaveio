@@ -75,9 +75,9 @@ sudo apt install openvpn easy-rsa
 ### 3. 搭建 CA 环境
 
 ```bash
-make-cadir ~/openvpn-ca
+mkdir ~/openvpn-ca
 cd ~/openvpn-ca
-nano vars
+vim vars
 ```
 
 编辑 `vars` 文件：
@@ -121,7 +121,7 @@ sudo cp ca.crt server.crt server.key ta.key dh2048.pem /etc/openvpn
 ### 1. 配置 `server.conf`
 
 ```bash
-sudo nano /etc/openvpn/server.conf
+sudo vim /etc/openvpn/server.conf
 ```
 
 推荐配置如下：
@@ -182,7 +182,7 @@ source vars
 ### 2. 创建 `.ovpn` 配置文件
 
 ```bash
-nano client1.ovpn
+vim client1.ovpn
 ```
 
 示例如下：
@@ -239,7 +239,7 @@ plugin /usr/lib/x86_64-linux-gnu/openvpn/plugins/openvpn-plugin-auth-pam.so open
 修改 PAM 配置：
 
 ```bash
-sudo nano /etc/pam.d/openvpn
+sudo vim /etc/pam.d/openvpn
 ```
 
 添加：
