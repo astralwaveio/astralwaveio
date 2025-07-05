@@ -76,7 +76,7 @@ cloudflare -> 用户 : DNS 解析请求
 
 此外，监听 HTTPS（ssl http2）可显著提升性能与兼容性，对如 Jellyfin、Navidrome 等媒体服务尤为重要。
 
-![1Panel Nginx 配置](/posts/image/ctndjfzyfwjg/001.png)
+![1Panel Nginx 配置](/assets/posts/image/ctndjfzyfwjg/001.png)
 
 ---
 
@@ -125,7 +125,7 @@ ingress:
   - service: http_status:404
 ```
 
-![Cloudflare Tunnel 配置](/posts/image/ctndjfzyfwjg/002.png)
+![Cloudflare Tunnel 配置](/assets/posts/image/ctndjfzyfwjg/002.png)
 
 ### 第三步：启动 cloudflared（无需自定义 systemd）
 
